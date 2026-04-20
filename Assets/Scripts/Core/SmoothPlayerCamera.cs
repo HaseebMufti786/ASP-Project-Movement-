@@ -26,6 +26,7 @@ public class SmoothPlayerCamera : MonoBehaviour
         transform.position = Vector3.Lerp(oldPos, targetPos, moveSpeed * Time.deltaTime);
         transform.rotation = Quaternion.Lerp(oldRot, Quaternion.Euler(controller.InputRot), turnSpeed * Time.deltaTime);
 
+        // Snap to target if outside acceptable distance threshold
         if (Vector3.Distance(transform.position, targetPos) > distanceLimit)
         {
             transform.position = targetPos;

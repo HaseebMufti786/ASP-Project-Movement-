@@ -72,13 +72,13 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
-        // Use air physics if moving upwards at high speed
+        // Uses air physics if moving upwards at high speed
         if (rampSlideLimit >= 0f && vel.y > rampSlideLimit)
             onGround = false;
 
         if (onGround)
         {
-            // Rotate movement vector to match ground tangent
+            // Rotates movement vector to match ground tangent
             inputDir = Vector3.Cross(Vector3.Cross(groundNormal, inputDir), groundNormal);
 
             GroundAccelerate();
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
 
         rb.linearVelocity = vel;
 
-        // Reset onGround before next collision checks
+        // Resets onGround before next collision checks
         onGround = false;
         groundNormal = Vector3.zero;
     }
@@ -102,6 +102,7 @@ public class PlayerController : MonoBehaviour
         float x = Input.GetAxisRaw(xAxisInput);
         float z = Input.GetAxisRaw(yAxisInput);
 
+        // Converts input into a direction relative to player rotation
         inputDir = transform.rotation * new Vector3(x, 0f, z).normalized;
 
         if (Input.GetButtonDown(jumpButton))
@@ -113,6 +114,7 @@ public class PlayerController : MonoBehaviour
 
     void MouseLook()
     {
+        // Updates horizontal and vertical rotation based on mouse movement
         _inputRot.y += Input.GetAxisRaw(inputMouseX) * mouseSensitivity;
         _inputRot.x -= Input.GetAxisRaw(inputMouseY) * mouseSensitivity;
 
@@ -126,11 +128,13 @@ public class PlayerController : MonoBehaviour
 
     private void GroundAccelerate()
     {
+        // This checks how much speed can still be added in the input direction
         float addSpeed = groundLimit - Vector3.Dot(vel, inputDir);
 
         if (addSpeed <= 0)
             return;
 
+        // Calculates the speed to add this frame
         float accelSpeed = groundAcceleration * Time.deltaTime;
 
         if (accelSpeed > addSpeed)
@@ -150,6 +154,7 @@ public class PlayerController : MonoBehaviour
         Vector3 hVel = vel;
         hVel.y = 0;
 
+        // This checks how much more speed can be added in the input direction
         float addSpeed = airLimit - Vector3.Dot(hVel, inputDir);
 
         if (addSpeed <= 0)
@@ -160,6 +165,7 @@ public class PlayerController : MonoBehaviour
         if (accelSpeed > addSpeed)
             accelSpeed = addSpeed;
 
+        // This applies movement in the input direction
         vel += accelSpeed * inputDir;
     }
 
@@ -176,6 +182,7 @@ public class PlayerController : MonoBehaviour
         if (vel.y < 0f || !additiveJump)
             vel.y = 0f;
 
+        // This applies upward force to initiate jump and update grounded state
         vel.y += jumpHeight;
         onGround = false;
 
@@ -194,7 +201,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay(Collision other)
     {
-        // Check if any of the contacts has acceptable floor angle
+        // Checks if any of the contacts has acceptable floor angle
         foreach (ContactPoint contact in other.contacts)
         {
             if (contact.normal.y > Mathf.Sin(slopeLimit * (Mathf.PI / 180f) + Mathf.PI / 2f))
