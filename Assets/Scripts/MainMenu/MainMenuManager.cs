@@ -3,13 +3,33 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
-    public void LoadScene(string sceneName)
+    [SerializeField] private GameObject instructionsPanel;
+
+    void Start()
     {
-        SceneManager.LoadScene(sceneName);
+        // Make sure it's hidden at start
+        instructionsPanel.SetActive(false);
+    }
+
+    public void LoadScene(string MainLobby)
+    {
+        SceneManager.LoadScene("MainLobby");
     }
 
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    // Called by "Instructions" button
+    public void ShowInstructions()
+    {
+        instructionsPanel.SetActive(true);
+    }
+
+    // Called by "Close" button inside panel
+    public void HideInstructions()
+    {
+        instructionsPanel.SetActive(false);
     }
 }
