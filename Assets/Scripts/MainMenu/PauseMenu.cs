@@ -16,8 +16,8 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        // Toggle pause with P key
-        if (Input.GetKeyDown(KeyCode.P))
+        // Toggle pause with 'Escape' key
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
                 Resume();

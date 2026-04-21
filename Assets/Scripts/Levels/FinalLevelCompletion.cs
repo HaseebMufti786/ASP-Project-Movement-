@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class RestartScene : MonoBehaviour
+public class LevelComplete : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            DeathCounter.AddDeath(); // increment counter
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            DeathCounter.ResetDeaths();
+ 
+            SceneManager.LoadScene(1);
         }
     }
 }
